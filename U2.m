@@ -1,4 +1,4 @@
-function U2(k)
+function U1(k)
 
 t_Start = 0;
 t_Stop = 5;
@@ -7,13 +7,12 @@ fStop = 5000;
 Fs = 10000; Ts = 1/Fs;
 
 t = t_Start:Ts:t_Stop;
-disp(t)
 
-yRead = chirp(t, fStart, t_Stop, fStop, 'logarithmic');
+yRead = chirp(t, fStart, t_Stop, fStop, 'linear');
 
-[m,n] = size(yRead);
-y = yRead;
-origY = yRead;
+
+y = yRead';
+origY = y;
 
 disp('y ready');
 disp('play 1');
@@ -22,21 +21,22 @@ sound(y, Fs);
 pause(5);
 
 disp('start filter');
-for idx = 1:numel(y)
-    if idx>k
+empty = zeros(k-1,1);
+ext_y = cat(1,empty,y);
+ext_y = cat(1,ext_y,empty);
+for idx = size(y,1):-1:k+1
+    
         temp = 0;
         for i=idx:-1:idx-k
-            temp = temp + y(i);
+            temp = temp + ext_y(i);
         end    
-        y(idx)=temp/k;
-    end
+        y(idx-k)=temp/k;
+
 end
 disp('filter ready');
 
 y_norm = y/max(abs(y));
-disp('norm ready');
 
-disp('play 2');
 sound(y_norm,Fs);
 
 

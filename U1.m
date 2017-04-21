@@ -1,6 +1,6 @@
 function U1(k)
 
-filename = 'C:\Users\AI\Documents\Studium\SS2017\SR\JetztGehtsLos.wav';
+filename = 'Z:\matlab\SR_L1_Audio\JetztGehtsLos.wav';
 [yRead,Fs]=audioread(filename);
 [m,n] = size(yRead);
 y = yRead(:,1);
@@ -28,9 +28,7 @@ end
 disp('filter ready');
 
 y_norm = y/max(abs(y));
-disp('norm ready');
 
-disp('play 2');
 sound(y_norm,Fs);
 
 
